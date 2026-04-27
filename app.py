@@ -166,12 +166,43 @@ if predict_btn:
     res_col1, res_col2 = st.columns([1, 1])
 
     with res_col1:
-        if pred == 1:
-            st.error(f"⚠️ HIGH CHURN RISK — {prob*100:.1f}% probability")
-            st.markdown("**Recommended Action:** Offer a discounted annual plan or loyalty reward immediately.")
-        else:
-            st.success(f"✅ LOW CHURN RISK — {prob*100:.1f}% probability")
-            st.markdown("**Status:** Customer is likely to stay. Monitor monthly.")
+        if prob >= 0.7:
+    st.error(f"🚨 CRITICAL CHURN RISK — {prob*100:.1f}% probability")
+    st.markdown("### 💼 Business Recommendations")
+    st.markdown("""
+    - 🎁 **Immediate Action:** Offer 25–30% discount on a 2-year contract upgrade
+    - 📞 **Call within 24 hours** — assign a retention specialist
+    - 💳 **Loyalty reward:** Free month or service upgrade (e.g. add Tech Support)
+    - 📊 **Flag in CRM** as Priority 1 retention case
+    """)
+
+elif prob >= 0.4:
+    st.warning(f"⚠️ MEDIUM CHURN RISK — {prob*100:.1f}% probability")
+    st.markdown("### 💼 Business Recommendations")
+    st.markdown("""
+    - 📧 **Send retention email** with personalized offer within 3 days
+    - 💡 **Suggest annual plan** — highlight cost savings vs monthly billing
+    - 🔒 **Recommend Online Security / Tech Support** add-ons if not subscribed
+    - 📅 **Schedule follow-up** call within 2 weeks
+    """)
+
+elif prob >= 0.2:
+    st.info(f"🟡 LOW CHURN RISK — {prob*100:.1f}% probability")
+    st.markdown("### 💼 Business Recommendations")
+    st.markdown("""
+    - 📬 **Send monthly newsletter** with product updates and tips
+    - ⭐ **Enroll in loyalty program** to strengthen engagement
+    - 📊 **Monitor monthly** — revisit if usage drops
+    """)
+
+else:
+    st.success(f"✅ VERY LOW CHURN RISK — {prob*100:.1f}% probability")
+    st.markdown("### 💼 Business Recommendations")
+    st.markdown("""
+    - 😊 **Customer is highly satisfied** — no immediate action needed
+    - 🌟 **Upsell opportunity:** Consider offering premium add-ons
+    - 🔁 **Ask for referral** — happy customers are your best marketers
+    """)
 
         st.metric("Churn Probability", f"{prob*100:.1f}%")
         st.metric("Retention Probability", f"{(1-prob)*100:.1f}%")
