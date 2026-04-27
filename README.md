@@ -73,6 +73,8 @@ The app takes customer inputs and returns:
 - Streamlit
 - GitHub + Streamlit Cloud
 
----
+--
+
+includes SHAP-based model explainability — shows which features drive each individual prediction
 
 ## 📁 Project Structure
