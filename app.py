@@ -220,3 +220,28 @@ if predict_btn:
     ax2.spines['right'].set_visible(False)
     st.pyplot(fig2)
     plt.close()
+    import shap
+import matplotlib.pyplot as plt
+
+# After you load your model (you already have this)
+# model = pickle.load(open('rf_churn_model.pkl', 'rb'))
+
+# After prediction is made, add:
+st.subheader("🔍 Why this prediction?")
+
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(input_df)  # input_df = your user input dataframe
+
+# For Random Forest, shap_values[1] = churn class
+fig, ax = plt.subplots()
+shap.plots.waterfall(
+    shap.Explanation(
+        values=shap_values[1][0],
+        base_values=explainer.expected_value[1],
+        data=input_df.iloc[0],
+        feature_names=input_df.columns.tolist()
+    ),
+    show=False
+)
+st.pyplot(fig)
+    
