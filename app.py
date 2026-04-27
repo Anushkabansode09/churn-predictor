@@ -234,13 +234,23 @@ if predict_btn:
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
+    # Handle both SHAP output formats:
+    # Old format: shap_values is a list [class0, class1] → use shap_values[1]
+    # New format: shap_values is a 3D array → use shap_values[:, :, 1]
+    if isinstance(shap_values, list):
+        sv = shap_values[1][0]
+        base_val = explainer.expected_value[1]
+    else:
+        sv = shap_values[0, :, 1]
+        base_val = explainer.expected_value[1]
+
     shap_col1, shap_col2, shap_col3 = st.columns([1, 2, 1])
     with shap_col2:
         fig3, ax3 = plt.subplots(figsize=(6, 4))
         shap.plots.waterfall(
             shap.Explanation(
-                values=shap_values[1][0],
-                base_values=explainer.expected_value[1],
+                values=sv,
+                base_values=base_val,
                 data=input_df.iloc[0],
                 feature_names=feature_names
             ),
