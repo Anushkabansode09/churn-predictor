@@ -167,7 +167,7 @@ if predict_btn:
 
     with res_col1:
         if prob >= 0.7:
-    st.error(f"🚨 CRITICAL CHURN RISK — {prob*100:.1f}% probability")
+            st.error(f"🚨 CRITICAL CHURN RISK — {prob*100:.1f}% probability")
             st.markdown("### 📋 Business Recommendations")
             st.markdown("""
             - 🎁 **Immediate Action:** Offer 25–30% discount on a 2-year contract upgrade
@@ -175,9 +175,8 @@ if predict_btn:
             - 🖥️ **Loyalty reward:** Free month or service upgrade (e.g. add Tech Support)
             - 📊 **Flag in CRM** as Priority 1 retention case
             """)
-
-elif prob >= 0.4:
-   st.warning(f"⚠️ MEDIUM CHURN RISK — {prob*100:.1f}% probability")
+        elif prob >= 0.4:
+            st.warning(f"⚠️ MEDIUM CHURN RISK — {prob*100:.1f}% probability")
             st.markdown("### 📋 Business Recommendations")
             st.markdown("""
             - 📧 **Send retention email** with personalized offer within 3 days
@@ -185,29 +184,28 @@ elif prob >= 0.4:
             - 🔒 **Recommend Online Security / Tech Support** add-ons if not subscribed
             - 📅 **Schedule follow-up** call within 2 weeks
             """)
-elif prob >= 0.2:
-    st.info(f"🟡 LOW CHURN RISK — {prob*100:.1f}% probability")
-    st.markdown("### 💼 Business Recommendations")
-    st.markdown("""
-    - 📬 **Send monthly newsletter** with product updates and tips
-    - ⭐ **Enroll in loyalty program** to strengthen engagement
-    - 📊 **Monitor monthly** — revisit if usage drops
-    """)
-
-else:
-    st.success(f"✅ VERY LOW CHURN RISK — {prob*100:.1f}% probability")
-    st.markdown("### 💼 Business Recommendations")
-    st.markdown("""
-    - 😊 **Customer is highly satisfied** — no immediate action needed
-    - 🌟 **Upsell opportunity:** Consider offering premium add-ons
-    - 🔁 **Ask for referral** — happy customers are your best marketers
-    """)
+        elif prob >= 0.2:
+            st.info(f"🟡 LOW CHURN RISK — {prob*100:.1f}% probability")
+            st.markdown("### 💼 Business Recommendations")
+            st.markdown("""
+            - 📬 **Send monthly newsletter** with product updates and tips
+            - ⭐ **Enroll in loyalty program** to strengthen engagement
+            - 📊 **Monitor monthly** — revisit if usage drops
+            """)
+        else:
+            st.success(f"✅ VERY LOW CHURN RISK — {prob*100:.1f}% probability")
+            st.markdown("### 💼 Business Recommendations")
+            st.markdown("""
+            - 😊 **Customer is highly satisfied** — no immediate action needed
+            - 🌟 **Upsell opportunity:** Consider offering premium add-ons
+            - 🔁 **Ask for referral** — happy customers are your best marketers
+            """)
 
         st.metric("Churn Probability", f"{prob*100:.1f}%")
         st.metric("Retention Probability", f"{(1-prob)*100:.1f}%")
 
     with res_col2:
-        # Gauge Chart — made smaller
+        # Gauge Chart
         fig, ax = plt.subplots(figsize=(4, 2.5), subplot_kw={'projection': 'polar'})
         fig.patch.set_facecolor('#0f1117')
         ax.set_facecolor('#0f1117')
@@ -232,7 +230,7 @@ else:
         st.pyplot(fig)
         plt.close()
 
-    # --- Feature Importance Chart — made smaller ---
+    # --- Feature Importance Chart ---
     st.markdown("---")
     st.markdown('<div class="section-title">What\'s Driving This Prediction?</div>', unsafe_allow_html=True)
 
@@ -240,10 +238,9 @@ else:
     feat_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
     feat_df = feat_df.sort_values('Importance', ascending=True).tail(10)
 
-    # Use columns to constrain width
     fi_col1, fi_col2, fi_col3 = st.columns([1, 2, 1])
     with fi_col2:
-        fig2, ax2 = plt.subplots(figsize=(6, 4))  # smaller than before
+        fig2, ax2 = plt.subplots(figsize=(6, 4))
         fig2.patch.set_facecolor('#0f1117')
         ax2.set_facecolor('#0f1117')
         ax2.barh(feat_df['Feature'], feat_df['Importance'], color='#e94560', alpha=0.85)
@@ -264,9 +261,6 @@ else:
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    # Handle both SHAP output formats:
-    # Old format: shap_values is a list [class0, class1] → use shap_values[1]
-    # New format: shap_values is a 3D array → use shap_values[:, :, 1]
     if isinstance(shap_values, list):
         sv = shap_values[1][0]
         base_val = explainer.expected_value[1]
