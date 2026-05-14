@@ -168,24 +168,23 @@ if predict_btn:
     with res_col1:
         if prob >= 0.7:
     st.error(f"🚨 CRITICAL CHURN RISK — {prob*100:.1f}% probability")
-    st.markdown("### 💼 Business Recommendations")
-    st.markdown("""
-    - 🎁 **Immediate Action:** Offer 25–30% discount on a 2-year contract upgrade
-    - 📞 **Call within 24 hours** — assign a retention specialist
-    - 💳 **Loyalty reward:** Free month or service upgrade (e.g. add Tech Support)
-    - 📊 **Flag in CRM** as Priority 1 retention case
-    """)
+            st.markdown("### 📋 Business Recommendations")
+            st.markdown("""
+            - 🎁 **Immediate Action:** Offer 25–30% discount on a 2-year contract upgrade
+            - 📞 **Call within 24 hours** — assign a retention specialist
+            - 🖥️ **Loyalty reward:** Free month or service upgrade (e.g. add Tech Support)
+            - 📊 **Flag in CRM** as Priority 1 retention case
+            """)
 
 elif prob >= 0.4:
-    st.warning(f"⚠️ MEDIUM CHURN RISK — {prob*100:.1f}% probability")
-    st.markdown("### 💼 Business Recommendations")
-    st.markdown("""
-    - 📧 **Send retention email** with personalized offer within 3 days
-    - 💡 **Suggest annual plan** — highlight cost savings vs monthly billing
-    - 🔒 **Recommend Online Security / Tech Support** add-ons if not subscribed
-    - 📅 **Schedule follow-up** call within 2 weeks
-    """)
-
+   st.warning(f"⚠️ MEDIUM CHURN RISK — {prob*100:.1f}% probability")
+            st.markdown("### 📋 Business Recommendations")
+            st.markdown("""
+            - 📧 **Send retention email** with personalized offer within 3 days
+            - 💡 **Suggest annual plan** — highlight cost savings vs monthly billing
+            - 🔒 **Recommend Online Security / Tech Support** add-ons if not subscribed
+            - 📅 **Schedule follow-up** call within 2 weeks
+            """)
 elif prob >= 0.2:
     st.info(f"🟡 LOW CHURN RISK — {prob*100:.1f}% probability")
     st.markdown("### 💼 Business Recommendations")
